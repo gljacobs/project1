@@ -6,17 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Camp Dad</title>
 
-    <!-- Compiled and minified CSS -->
+    <!-- CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="?.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <!-- Compiled and minified JavaScript -->
+    <!-- JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 
 <body>
     <header>
         <div class="nav-container">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="index.html" class="brand-logo right"><i class="material-icons">home</i>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container d-flex justify-content-center">
+                    <h1 class="display-4">Logo</h1>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">search</i>
+                                <input type="text" id="autocomplete-input" class="autocomplete">
+                                <label for="autocomplete-input">Search</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
         </div>
     </header>
     <main>
@@ -32,7 +61,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBmSLZewBiOZn3GJAasNRzdzRYA_Bi4qyo&callback=initMap"
         async defer></script>
-    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="assets/js/app.js"></script>
 </body>
 
 </html>
