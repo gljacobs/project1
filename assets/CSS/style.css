@@ -20,7 +20,6 @@ span.ui-helper-hidden-accessible {
 .ui-autocomplete{
   position: absolute;
   max-width: 300px;
-  padding: 5px;
   max-height: 250px;
   overflow: auto;
   background-color: white;
@@ -28,7 +27,15 @@ span.ui-helper-hidden-accessible {
 
 li.ui-menu-item {
 color: black;
-border-bottom:  grey 1px solid;;
+border-bottom:  grey 1px solid;
+padding: 3px;
+
+}
+
+li.ui-menu-item:hover{
+  background-color: rgb(232,236,239);
+  color: white;
+  text-decoration: none;
 }
 
 
