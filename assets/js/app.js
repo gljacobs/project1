@@ -3,6 +3,7 @@ var nationalParks = ["Acadia", "American Samoa", "Arches", "Badlands", "Big Bend
 
 $(document).ready(function () {
     $('input.autocomplete').autocomplete({ source: nationalParks });
+    
 });
 
 $("#search").keypress((event) => {

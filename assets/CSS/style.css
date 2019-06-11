@@ -1,7 +1,7 @@
 body {
   display: flex;
   flex-direction: column;
-  min-height: 100vh
+  min-height: 100vh;
 }
 
 main {
@@ -16,6 +16,21 @@ main {
 span.ui-helper-hidden-accessible {
   display: none;
 }
+
+.ui-autocomplete{
+  position: absolute;
+  max-width: 300px;
+  padding: 5px;
+  max-height: 250px;
+  overflow: auto;
+  background-color: white;
+}
+
+li.ui-menu-item {
+color: black;
+border-bottom:  grey 1px solid;;
+}
+
 
 
 
