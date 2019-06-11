@@ -8,39 +8,69 @@ main {
   flex: 1 0 auto;
 }
 
-.page-footer {
-  flex-shrink: 0;
-  margin-top: 100px;
+/* header */
+#logo{
+  color: white;
 }
 
 span.ui-helper-hidden-accessible {
   display: none;
 }
 
-.ui-autocomplete{
+.ui-autocomplete {
   position: absolute;
   max-width: 300px;
   max-height: 250px;
   overflow: auto;
-  background-color: white;
+  background: rgba(0,0,0,0.5);
+}
+.ui-autocomplete-input{
+  color: white;
 }
 
 li.ui-menu-item {
-color: black;
-border-bottom:  grey 1px solid;
-padding: 3px;
-
+  padding: 3px;
 }
 
-li.ui-menu-item:hover{
-  background-color: rgb(232,236,239);
-  color: white;
+li.ui-menu-item a{
+  color:white;
+}
+
+li.ui-menu-item:hover a{
+  color:#26a69a;
   text-decoration: none;
 }
 
+li.ui-menu-item:hover {
+  background-color: white;
+  opacity: 0.8;
+}
 
+#input-row .col.s12 {
+  margin-bottom: -5px;
+}
 
+#input-row{
+  background: rgba(0,0,0,0.5);
+  max-width: 50%; 
+  border-radius: 15px;
+  position: relative;
+  top: 23px;
+}
 
+.jumbotron-fluid {
+  background-image: url("https://cdn.gearpatrol.com/wp-content/uploads/2015/05/Camping-Tips-Gear-Patrol-Lead-1440.jpg");
+  background-size: 100% 150%;
+}
 
+#icon-search{
+  color: white;
+}
+
+/* footer */
+.page-footer {
+  flex-shrink: 0;
+  margin-top: 100px;
+}
 
 
