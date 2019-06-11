@@ -10,7 +10,12 @@ main {
 
 /* header */
 #logo{
-  color: white;
+  width: auto;;
+  height: 150px;
+}
+
+#title-navbar{
+font-size: 35px;
 }
 
 span.ui-helper-hidden-accessible {
