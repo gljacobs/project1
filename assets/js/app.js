@@ -23,7 +23,7 @@ $("#search").keypress((event) => {
         }).then(function (response) {
             console.log(response);
 
-            $("body").append("<img src='" + response.data[0].images[0].url + "' style='width: 400px'>")
+            $("#card-section").append("<img src='" + response.data[0].images[0].url + "' style='width: 400px'>")
         });
     }
 })
