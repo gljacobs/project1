@@ -31,8 +31,33 @@ color: black;
 border-bottom:  grey 1px solid;;
 }
 
+.card {
+  height: 300px;
+  width: 375px;
+  margin: 10px;
+  color: black;
+  overflow: scroll;
+  padding: 10px;
+  position: relative;
+}
 
+#card-section {
+  margin: 0 auto;
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  flex: 0 0 33.333333% 
+}
 
+.container {
+  margin: 0 auto;
+}
+
+h4 {
+  text-align: center;
+}3
 
 
 
