@@ -1,5 +1,13 @@
 var nationalParks = ["Acadia", "American Samoa", "Arches", "Badlands", "Big Bend", "Biscayne", "Black Canyon of the Gunnison", "Bryce Canyon", "Cabrillo", "Canyonlands", "Capitol Reef", "Carlsbad Caverns", "Channel Islands", "Congaree", "Crater Lake", "Cuyahoga Valley", "Death Valley", "Denali", "Dry Tortugas", "Everglades", "Gates of the Arctic", "Gettysburg National Military Park", "Glacier", "Glacier Bay", "Grand Canyon", "Grand Teton", "Great Basin", "Great Sand Dunes", "Great Smoky Mountains", "Guadalupe Mountains", "Haleakala", "Hawai’i Volcanoes", "Harpers Ferry", "Hot Springs", "Isle Royale", "Joshua Tree", "Katmai", "Kenai Fjords", "Kings Canyon", "Kobuk Valley", "Lake Clark", "Lassen Volcanic", "Mammoth Cave", "Mesa Verde", "Mount Rainier", "North Cascades", "Organ Pipe Cactus", "Olympic", "Petrified Forest", "Pinnacles", "Redwood", "Rocky Mountain", "Saguaro", "Sequoia", "Shenandoah", "Theodore Roosevelt", "Valley Forge", "Virgin Islands", "Voyageurs", "Wind Cave", "Wrangell–St. Elias", "Yellowstone", "Yosemite", "Zion"]
 
+// var map;
+// var mMap = function initMap() {
+//     map = new google.maps.Map(document.getElementById("map"), {
+//       center: {lat: 39.833333, lng: -98.583333},
+//       zoom: 4
+//     });
+// }
+
 
 $(document).ready(function () {
     $('input.autocomplete').autocomplete({ source: nationalParks });
@@ -39,33 +47,36 @@ $("#search").keypress((event) => {
                     var regex = /[\d\.-]+/g;
                     var latLong = latLongString.match(regex);
 
-                    var lat = latLong[0];
+                    var latt = latLong[0];
                     var long = latLong[1];
 
                     //var maps = (lat + ", " + long);
+                    var cardID = "map" + i;
 
                         card.append("<h4>" +name + "</h4>");
-                        card.append("<p>" + description + "</p>");
-                        card.append("<div id='map'>");
+                        //card.append("<p>" + description + "</p>");
+                        card.append("<div class='cardmap' id='" + cardID + "'>");
                         // card.append("<p>" + weatherOverview + "</p>");
                         // card.append("<p>" + directions + "</p>");
                         card.addClass("card");
 
-                        function initMap() {
-                            map = new google.maps.Map(document.getElementById('#map'), {
-                              center: {lat: 39.833333, lng: -98.583333},
-                              zoom: 4
+                        var map;
+                        var mMap = function initMap() {
+                             map = new google.maps.Map(document.getElementById(cardID), {
+                                center: {lat: 39.833333, lng: -98.583333},
+                                zoom: 4
                             });
-                        }
-
-                            map.setCenter({
-                                lat: parseFloat(lat),
-                                lng: parseFloat(long),
-                            });
-                            map.setZoom(11);
+                        };
+                        
     
 
                         $("#card-section").append(card);
+                        mMap();
+                        map.setCenter({
+                            lat: parseFloat(latt),
+                            lng: parseFloat(long),
+                        });
+                        map.setZoom(11);
 
             }
         }
