@@ -46,22 +46,6 @@ li.ui-menu-item:hover a{
   text-decoration: none;
 }
 
-li.ui-menu-item:hover {
-  background-color: white;
-  opacity: 0.8;
-}
-
-#input-row .col.s12 {
-  margin-bottom: -5px;
-}
-
-#input-row{
-  background: rgba(0,0,0,0.5);
-  max-width: 50%; 
-  border-radius: 15px;
-  position: relative;
-  top: 23px;
-}
 
 .jumbotron-fluid {
   background-image: url("https://cdn.gearpatrol.com/wp-content/uploads/2015/05/Camping-Tips-Gear-Patrol-Lead-1440.jpg");
