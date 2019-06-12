@@ -62,4 +62,54 @@ li.ui-menu-item:hover a{
   margin-top: 100px;
 }
 
+li.ui-menu-item:hover {
+  background-color: white;
+  opacity: 0.8;
+}
+
+#input-row .col.s12 {
+  margin-bottom: -5px;
+}
+
+#input-row{
+  background: rgba(0,0,0,0.5);
+  max-width: 50%; 
+  border-radius: 15px;
+  position: relative;
+  top: 23px;
+}
+
+.card {
+  height: 300px;
+  width: 375px;
+  margin: 10px;
+  color: black;
+  overflow: scroll;
+  padding: 10px;
+  position: relative;
+}
+
+#card-section {
+  margin: 0 auto;
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  flex: 0 0 33.333333% 
+}
+
+.container {
+  margin: 0 auto;
+}
+
+h4 {
+  text-align: center;
+}
+
+.cardmap {
+  height: 100%;
+}
+
+
 
