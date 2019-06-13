@@ -89,7 +89,9 @@ $("#search").keypress((event) => {
 
         event.preventDefault();
 
+
         var search = $("#search").val().trim();
+
         var queryURL = "https://developer.nps.gov/api/v1/campgrounds?q=" + search + "&api_key=O4VdhmolNStlPLj2bo2DfPKWks3F8J9xfihpGqTf";
 
         $.ajax({
@@ -97,6 +99,7 @@ $("#search").keypress((event) => {
             method: "GET"
         }).then(function (response) {
             console.log(response);
+
 
             for (i = 0; i < (response.data).length; i++) {
 
@@ -157,6 +160,3 @@ $("#search").keypress((event) => {
         });
     };
 });
-
-
-
