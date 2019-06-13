@@ -100,7 +100,6 @@ $("#search").keypress((event) => {
         }).then(function (response) {
             console.log(response);
 
-
             for (i = 0; i < (response.data).length; i++) {
 
                 var cardContain = $("<div>");
