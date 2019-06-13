@@ -25,7 +25,6 @@ $("#search").keypress((event) => {
         }).then(function (response) {
             console.log(response);
 
-
             $("#card-section").empty();
 
             if (response.data.length === 0) {
