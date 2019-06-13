@@ -15,6 +15,7 @@ $("#search").keypress((event) => {
         $("#card-section").append(loader);
 
         var search = $("#search").val().trim();
+
         var queryURL = "https://developer.nps.gov/api/v1/campgrounds?q=" + search + "&api_key=O4VdhmolNStlPLj2bo2DfPKWks3F8J9xfihpGqTf";
 
 
@@ -24,67 +25,78 @@ $("#search").keypress((event) => {
         }).then(function (response) {
             console.log(response);
 
+
             $("#card-section").empty();
-            for (i = 0; i < (response.data).length; i++) {
 
-                var card = $("<div>");
-                var name = response.data[i].name;
-                // var description = response.data[i].description;
-                // var weatherOverview = response.data[i].weatheroverview;
-                // var directions = response.data[i].directionsoverview;
+            if (response.data.length === 0) {
+                var noResult = $("<h1>")
+                noResult.css("font-size", "30px")
+                noResult.html("No results")
+                $("#card-section").append(noResult)
+            } else {
+                for (i = 0; i < (response.data).length; i++) {
 
-                var latLongString = (response.data[i].latLong);
-                var regex = /[\d\.-]+/g;
-                var latLong = latLongString.match(regex);
+                    var card = $("<div>");
+                    var name = response.data[i].name;
+                    // var description = response.data[i].description;
+                    // var weatherOverview = response.data[i].weatheroverview;
+                    // var directions = response.data[i].directionsoverview;
 
-                //var maps = (lat + ", " + long);
-                var cardID = "map" + i;
+                    var latLongString = (response.data[i].latLong);
 
-                card.append("<h4>" + name + "</h4>");
-                //card.append("<p>" + description + "</p>");
-                card.append("<div class='cardmap' id='" + cardID + "'>");
-                // card.append("<p>" + weatherOverview + "</p>");
-                // card.append("<p>" + directions + "</p>");
-                card.addClass("card");
+                    var regex = /[\d\.-]+/g;
+                    var latLong = latLongString.match(regex);
 
-                $("#card-section").append(card);
-                let map = new google.maps.Map(document.getElementById(cardID), {
-                    center: { lat: 39.833333, lng: -98.583333 },
-                    zoom: 10
-                });
+                    //var maps = (lat + ", " + long);
+                    var cardID = "map" + i;
 
-                if (latLong != null) {
-                    map.setCenter({
-                        lat: parseFloat(latLong[0]),
-                        lng: parseFloat(latLong[1])
-                    })
-                    new google.maps.Marker({
-                        map: map,
-                        position: {
+                    card.append("<h4>" + name + "</h4>");
+                    //card.append("<p>" + description + "</p>");
+                    card.append("<div class='cardmap' id='" + cardID + "'>");
+                    // card.append("<p>" + weatherOverview + "</p>");
+                    // card.append("<p>" + directions + "</p>");
+                    card.addClass("card");
+
+                    $("#card-section").append(card);
+
+                    let map = new google.maps.Map(document.getElementById(cardID), {
+                        center: { lat: 39.833333, lng: -98.583333 },
+                        zoom: 10
+                    });
+
+                    if (latLong != null) {
+                        map.setCenter({
                             lat: parseFloat(latLong[0]),
                             lng: parseFloat(latLong[1])
-                        }
-                    });
-                } else {
-                    var request = {
-                        query: name,
-                        fields: ['name', 'geometry'],
-                    };
+                        })
+                        new google.maps.Marker({
+                            map: map,
+                            position: {
+                                lat: parseFloat(latLong[0]),
+                                lng: parseFloat(latLong[1])
+                            }
+                        });
+                    } else {
+                        var request = {
+                            query: name,
+                            fields: ['name', 'geometry'],
+                        };
 
-                    var service = new google.maps.places.PlacesService(map);
-                    service.findPlaceFromQuery(request, function (results, status) {
-                        console.log(status);
-                        if (status === google.maps.places.PlacesServiceStatus.OK) {
-                            console.log(name + " " + results[0].geometry.location.lat())
-                            var place = results[0];
-                            map.setCenter(place.geometry.location);
-                            new google.maps.Marker({
-                                map: map,
-                                position: place.geometry.location
-                            });
-                        }
-                    });
+                        var service = new google.maps.places.PlacesService(map);
+                        service.findPlaceFromQuery(request, function (results, status) {
+                            console.log(status);
+                            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                                console.log(name + " " + results[0].geometry.location.lat())
+                                var place = results[0];
+                                map.setCenter(place.geometry.location);
+                                new google.maps.Marker({
+                                    map: map,
+                                    position: place.geometry.location
+                                });
+                            }
+                        });
 
+                    }
                 }
             }
         }
