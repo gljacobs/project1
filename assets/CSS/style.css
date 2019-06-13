@@ -111,5 +111,12 @@ h4 {
   height: 100%;
 }
 
+a.btn-floating.halfway-fab.waves-effect.waves-light.red {
+  z-index: 100;
+  position: relative;
+  right: -350px;
+  top: 30px;
+}
+
 
 
