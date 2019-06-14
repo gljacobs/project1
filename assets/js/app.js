@@ -22,7 +22,10 @@ var database = firebase.database();
 favRef = database.ref("/favorites");
 
 $(document).ready(function () {
+
     $('input.autocomplete').autocomplete({ source: nationalParks });
+    $(".main").hide();
+    $('.modal').modal();
 
     for (i = 0; i < (favs).length; i++) {
 
@@ -31,6 +34,8 @@ $(document).ready(function () {
 
         var cardContain = $("<div>");
         var card = $("<div>");
+        var button = $("<button data-target='modal1' class='detail-btn waves-effect waves-light btn modal-trigger' value='" + i + "'>D E T A I L S</button>");
+                    button.addClass("button");
         var name = favs[i].name;
         var description = favs[i].description;
         var weatherOverview = favs[i].weatheroverview;
@@ -46,12 +51,12 @@ $(document).ready(function () {
         //var maps = (lat + ", " + long);
         var cardID = "map" + i;
 
-        card.append("<h4>" + name + "</h4>");
+        card.append("<div class='cardmap inner' id='" + cardID + "'>");
+        card.append("<h5>" + name + "</h5>");
         cardContain.append("<a class='favbtn btn-floating halfway-fab waves-effect waves-light red' value='" + i + "'><i class='material-icons'>star</i></a>");
-        card.append("<div class='cardmap' id='" + cardID + "'>");
-        // card.append("<p>" + weatherOverview + "</p>");
-        // card.append("<p>" + directions + "</p>");
-        card.addClass("card");
+        card.append("<p>" + directions + "</p>");
+        card.addClass("card shadow");
+        card.append(button);
 
         var map;
         var mMap = function initMap() {
@@ -68,10 +73,22 @@ $(document).ready(function () {
             lng: parseFloat(long),
         });
         map.setZoom(11);
+
+        var detNum;
+            $(document).on("click", ".detail-btn", function () {
+                detNum = parseInt($(this).attr("value"));
+
+                var modal = $(".modal-content");
+                var modalHead = $(".modal-head");
+                modalHead.html("<h4>" + favs[detNum].name + "</h4><br>");
+                modal.html("<p>" + favs[detNum].description + "</p><br>" + "<p>" + favs[detNum].directionsoverview + "</p><br>" + "<p>" + favs[detNum].accessibility.adainfo + "</p><br>" + "<p>" + favs[detNum].accessibility.firestovepolicy + "</p><br>" + "<p>" + favs[detNum].weatheroverview + "</p>");
+            })
     }
 });
 
 $("#search").keypress((event) => {
+    $(".main").show();
+
     if (event.keyCode === 13) {
         event.preventDefault();
 
@@ -92,6 +109,7 @@ $("#search").keypress((event) => {
         }).then(function (response) {
             console.log(response);
 
+
             $("#card-section").empty();
 
             if (response.data.length === 0) {
@@ -101,29 +119,54 @@ $("#search").keypress((event) => {
                 $("#card-section").append(noResult)
             } else {
                 for (i = 0; i < (response.data).length; i++) {
-
+                    var cardContain = $("<div>");
                     var card = $("<div>");
+                    var button = $("<button data-target='modal1' class='detail-btn waves-effect waves-light btn modal-trigger' value='" + i + "'>D E T A I L S</button>");
+                    button.addClass("button");
                     var name = response.data[i].name;
-                    // var description = response.data[i].description;
-                    // var weatherOverview = response.data[i].weatheroverview;
-                    // var directions = response.data[i].directionsoverview;
-
+                    var directions = response.data[i].directionsoverview;
                     var latLongString = (response.data[i].latLong);
 
                     var regex = /[\d\.-]+/g;
                     var latLong = latLongString.match(regex);
 
-                    //var maps = (lat + ", " + long);
+                    var lat = latLong[0];
+                    var long = latLong[1];
+
                     var cardID = "map" + i;
 
-                    card.append("<h4>" + name + "</h4>");
-                    //card.append("<p>" + description + "</p>");
-                    card.append("<div class='cardmap' id='" + cardID + "'>");
-                    // card.append("<p>" + weatherOverview + "</p>");
-                    // card.append("<p>" + directions + "</p>");
-                    card.addClass("card");
+                    card.append("<div class='cardmap inner' id='" + cardID + "'>");
+                    card.append("<h5>" + name + "</h5>");
+                    cardContain.append("<a class='favbtn btn-floating halfway-fab waves-effect waves-light red' value='" + i + "'><i class='material-icons'>star</i></a>");
+                    card.append("<p>" + directions + "</p>");
+                    card.addClass("card shadow");
+                    card.append(button);
+
+                    //appending to the modal below
+
+                    // var map;
+                    // var mMap = function initMap() {
+                    //      map = new google.maps.Map(document.getElementById(cardID), {
+                    //         center: {lat: 39.833333, lng: -98.583333},
+                    //         zoom: 4
+                    //     });
+                    // };
 
                     $("#card-section").append(card);
+
+                    //mMap();
+                    var maps = (lat + ", " + long);
+                    var cardID = "map" + i;
+
+                    // card.append("<h4>" + name + "</h4>");
+                    // //card.append("<p>" + description + "</p>");
+                    // card.append("<div class='cardmap' id='" + cardID + "'>");
+                    // // card.append("<p>" + weatherOverview + "</p>");
+                    // // card.append("<p>" + directions + "</p>");
+                    // card.addClass("card");
+
+                    cardContain.append(card);
+                    $("#card-section").append(cardContain);
 
                     let map = new google.maps.Map(document.getElementById(cardID), {
                         center: { lat: 39.833333, lng: -98.583333 },
@@ -161,6 +204,7 @@ $("#search").keypress((event) => {
                                 });
                             }
                         });
+                        map.setZoom(11);
 
                     }
                 }
@@ -176,8 +220,17 @@ $("#search").keypress((event) => {
                     }
                 });
             }
-        }
 
+            var detNum;
+            $(document).on("click", ".detail-btn", function () {
+                detNum = parseInt($(this).attr("value"));
+
+                var modal = $(".modal-content");
+                var modalHead = $(".modal-head");
+                modalHead.html("<h4>" + response.data[detNum].name + "</h4><br>");
+                modal.html("<p>" + response.data[detNum].description + "</p><br>" + "<p>" + response.data[detNum].directionsoverview + "</p><br>" + "<p>" + response.data[detNum].accessibility.adainfo + "</p><br>" + "<p>" + response.data[detNum].accessibility.firestovepolicy + "</p><br>" + "<p>" + response.data[detNum].weatheroverview + "</p>");
+            })
+        }
         )
     };
 })
