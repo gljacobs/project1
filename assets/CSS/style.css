@@ -145,6 +145,12 @@ p {
   margin: 0 auto;
   margin-top: 20px;
 }
+a.btn-floating.halfway-fab.waves-effect.waves-light.red {
+  z-index: 100;
+  position: relative;
+  right: -350px;
+  top: 30px;
+}
 
 .modal-head {
   margin: 0 auto;
