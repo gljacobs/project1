@@ -20,7 +20,7 @@ header {
 }
 
 #title-navbar{
-font-size: 35px;
+  font-size: 35px;
 }
 
 span.ui-helper-hidden-accessible {
@@ -115,6 +115,8 @@ li.ui-menu-item:hover {
 .container {
   margin: 0 auto;
   padding: 0;
+  width: 100% !important;
+  padding-bottom: 30px;
 }
 
 h5 {
@@ -165,5 +167,9 @@ h4 {
   text-align: center;
   margin: 0px;
   padding-top: 30px;
+}
+
+input#search {
+ color: white;
 }
 

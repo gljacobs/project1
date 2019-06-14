@@ -1,4 +1,4 @@
-var nationalParks = ["Acadia", "American Samoa", "Arches", "Badlands", "Big Bend", "Biscayne", "Black Canyon of the Gunnison", "Bryce Canyon", "Cabrillo", "Canyonlands", "Capitol Reef", "Carlsbad Caverns", "Channel Islands", "Congaree", "Crater Lake", "Cuyahoga Valley", "Death Valley", "Denali", "Dry Tortugas", "Everglades", "Gates of the Arctic", "Gettysburg National Military Park", "Glacier", "Glacier Bay", "Grand Canyon", "Grand Teton", "Great Basin", "Great Sand Dunes", "Great Smoky Mountains", "Guadalupe Mountains", "Haleakala", "Hawai’i Volcanoes", "Harpers Ferry", "Hot Springs", "Isle Royale", "Joshua Tree", "Katmai", "Kenai Fjords", "Kings Canyon", "Kobuk Valley", "Lake Clark", "Lassen Volcanic", "Mammoth Cave", "Mesa Verde", "Mount Rainier", "North Cascades", "Organ Pipe Cactus", "Olympic", "Petrified Forest", "Pinnacles", "Redwood", "Rocky Mountain", "Saguaro", "Sequoia", "Shenandoah", "Theodore Roosevelt", "Valley Forge", "Virgin Islands", "Voyageurs", "Wind Cave", "Wrangell–St. Elias", "Yellowstone", "Yosemite", "Zion"]
+var nationalParks = {"Acadia": null, "American Samoa": null, "Arches": null, "Badlands": null, "Big Bend": null, "Biscayne": null, "Black Canyon of the Gunnison": null, "Bryce Canyon": null, "Cabrillo": null, "Canyonlands": null, "Capitol Reef": null, "Carlsbad Caverns": null, "Channel Islands": null, "Congaree": null, "Crater Lake": null, "Cuyahoga Valley": null, "Death Valley": null, "Denali": null, "Dry Tortugas": null, "Everglades": null, "Gates of the Arctic": null, "Gettysburg National Military Park": null, "Glacier": null, "Glacier Bay": null, "Grand Canyon": null, "Grand Teton": null, "Great Basin": null, "Great Sand Dunes": null, "Great Smoky Mountains": null, "Guadalupe Mountains": null, "Haleakala": null, "Hawai’i Volcanoes": null, "Harpers Ferry": null, "Hot Springs": null, "Isle Royale": null, "Joshua Tree": null, "Katmai": null, "Kenai Fjords": null, "Kings Canyon": null, "Kobuk Valley": null, "Lake Clark": null, "Lassen Volcanic": null, "Mammoth Cave": null, "Mesa Verde": null, "Mount Rainier": null, "North Cascades": null, "Organ Pipe Cactus": null, "Olympic": null, "Petrified Forest": null, "Pinnacles": null, "Redwood": null, "Rocky Mountain": null, "Saguaro": null, "Sequoia": null, "Shenandoah": null, "Theodore Roosevelt": null, "Valley Forge": null, "Virgin Islands": null, "Voyageurs": null, "Wind Cave": null, "Wrangell–St. Elias": null, "Yellowstone": null, "Yosemite": null, "Zion": null};
 
 var favs = JSON.parse(localStorage.getItem("favorites"));
 if (favs === null) {
@@ -21,21 +21,20 @@ var database = firebase.database();
 
 favRef = database.ref("/favorites");
 
+
 $(document).ready(function () {
 
-    $('input.autocomplete').autocomplete({ source: nationalParks });
+    //$("input.autocomplete").autocomplete({ data: nationalParks });
+    $('input.autocomplete').autocomplete({ data: nationalParks});
     $(".main").hide();
     $('.modal').modal();
 
     for (i = 0; i < (favs).length; i++) {
 
-        console.log("hi");
-
-
         var cardContain = $("<div>");
         var card = $("<div>");
         var button = $("<button data-target='modal1' class='detail-btn waves-effect waves-light btn modal-trigger' value='" + i + "'>D E T A I L S</button>");
-                    button.addClass("button");
+        button.addClass("button");
         var name = favs[i].name;
         var description = favs[i].description;
         var weatherOverview = favs[i].weatheroverview;
@@ -45,10 +44,11 @@ $(document).ready(function () {
         var regex = /[\d\.-]+/g;
         var latLong = latLongString.match(regex);
 
-        var latt = latLong[0];
-        var long = latLong[1];
+        if (latLong != null) {
+            var lat = latLong[0];
+            var long = latLong[1];
+        }
 
-        //var maps = (lat + ", " + long);
         var cardID = "map" + i;
 
         card.append("<div class='cardmap inner' id='" + cardID + "'>");
@@ -58,23 +58,52 @@ $(document).ready(function () {
         card.addClass("card shadow");
         card.append(button);
 
-        var map;
-        var mMap = function initMap() {
-            map = new google.maps.Map(document.getElementById(cardID), {
-                center: { lat: 39.833333, lng: -98.583333 },
-                zoom: 4
-            });
-        };
-        cardContain.append(card)
-        $("#card-section").append(cardContain);
-        mMap();
-        map.setCenter({
-            lat: parseFloat(latt),
-            lng: parseFloat(long),
-        });
-        map.setZoom(11);
+        var maps = (lat + ", " + long);
+        var cardID = "map" + i;
 
-        var detNum;
+        cardContain.append(card);
+        $("#card-section").append(cardContain);
+
+        let map = new google.maps.Map(document.getElementById(cardID), {
+            center: { lat: 39.833333, lng: -98.583333 },
+            zoom: 10
+        });
+
+        if (latLong != null) {
+            map.setCenter({
+                lat: parseFloat(latLong[0]),
+                lng: parseFloat(latLong[1])
+            })
+            new google.maps.Marker({
+                map: map,
+                position: {
+                    lat: parseFloat(latLong[0]),
+                    lng: parseFloat(latLong[1])
+                }
+            });
+        } else {
+            var request = {
+                query: name,
+                fields: ['name', 'geometry'],
+            };
+
+            var service = new google.maps.places.PlacesService(map);
+            service.findPlaceFromQuery(request, function (results, status) {
+                console.log(status);
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    console.log(name + " " + results[0].geometry.location.lat())
+                    var place = results[0];
+                    map.setCenter(place.geometry.location);
+                    new google.maps.Marker({
+                        map: map,
+                        position: place.geometry.location
+                    });
+                }
+            });
+            map.setZoom(11);
+        }
+
+            var detNum;
             $(document).on("click", ".detail-btn", function () {
                 detNum = parseInt($(this).attr("value"));
 
@@ -83,8 +112,8 @@ $(document).ready(function () {
                 modalHead.html("<h4>" + favs[detNum].name + "</h4><br>");
                 modal.html("<p>" + favs[detNum].description + "</p><br>" + "<p>" + favs[detNum].directionsoverview + "</p><br>" + "<p>" + favs[detNum].accessibility.adainfo + "</p><br>" + "<p>" + favs[detNum].accessibility.firestovepolicy + "</p><br>" + "<p>" + favs[detNum].weatheroverview + "</p>");
             })
-    }
-});
+        }
+    });
 
 $("#search").keypress((event) => {
     $(".main").show();
@@ -130,40 +159,25 @@ $("#search").keypress((event) => {
                     var regex = /[\d\.-]+/g;
                     var latLong = latLongString.match(regex);
 
-                    var lat = latLong[0];
-                    var long = latLong[1];
+                    if (latLong != null) {
+                        var lat = latLong[0];
+                        var long = latLong[1];
+                    }
 
                     var cardID = "map" + i;
 
                     card.append("<div class='cardmap inner' id='" + cardID + "'>");
                     card.append("<h5>" + name + "</h5>");
-                    cardContain.append("<a class='favbtn btn-floating halfway-fab waves-effect waves-light red' value='" + i + "'><i class='material-icons'>star</i></a>");
+                    cardContain.append("<a class='favbtn btn-floating halfway-fab waves-effect waves-light red' value='" + i + "'><i class='material-icons'>star_border</i></a>");
                     card.append("<p>" + directions + "</p>");
                     card.addClass("card shadow");
                     card.append(button);
-
-                    //appending to the modal below
-
-                    // var map;
-                    // var mMap = function initMap() {
-                    //      map = new google.maps.Map(document.getElementById(cardID), {
-                    //         center: {lat: 39.833333, lng: -98.583333},
-                    //         zoom: 4
-                    //     });
-                    // };
 
                     $("#card-section").append(card);
 
                     //mMap();
                     var maps = (lat + ", " + long);
                     var cardID = "map" + i;
-
-                    // card.append("<h4>" + name + "</h4>");
-                    // //card.append("<p>" + description + "</p>");
-                    // card.append("<div class='cardmap' id='" + cardID + "'>");
-                    // // card.append("<p>" + weatherOverview + "</p>");
-                    // // card.append("<p>" + directions + "</p>");
-                    // card.addClass("card");
 
                     cardContain.append(card);
                     $("#card-section").append(cardContain);
