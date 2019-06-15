@@ -32,7 +32,7 @@ This web application is a campsite search app that provides details regarding pa
 * [National Parks Service API](https://www.nps.gov/subjects/developer/api-documentation.htm)
 * [Google Maps API](https://developers.google.com/maps/documentation/javascript/examples/place-search)
 
-## Author
+## Authors
 
-gljacobs, Victoire44, matthewryanhagarty, shualton
+[Gabriel Jacobs](https://github.com/gljacobs), [Victoire Baron](https://github.com/Victoire44), [Matthew Hagarty](https://github.com/matthewryanhagarty),[Alton Shu](https://github.com/shualton)
 
